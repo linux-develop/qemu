@@ -673,7 +673,7 @@ typedef enum {
 #define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
 
 /* Leaf page shift amount */
-#define PGSHIFT             12
+#define PGSHIFT             14
 
 /* Default Reset Vector address */
 #define DEFAULT_RSTVEC      0x1000
