@@ -182,6 +182,11 @@ static void mem_info_svxx(Monitor *mon, CPUArchState *env)
         ptidxbits = 9;
         ptesize = 8;
         break;
+    case VM_1_10_SV58:
+        levels = 4;
+        ptidxbits = 11;
+        ptesize = 8;
+        break;
     default:
         g_assert_not_reached();
     }

@@ -1786,7 +1786,8 @@ const bool valid_vm_1_10_64[16] = {
     [VM_1_10_MBARE] = true,
     [VM_1_10_SV39] = true,
     [VM_1_10_SV48] = true,
-    [VM_1_10_SV57] = true
+    [VM_1_10_SV57] = true,
+    [VM_1_10_SV58] = true
 };
 
 /* Machine Information Registers */

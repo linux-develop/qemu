@@ -380,6 +380,10 @@ static uint8_t satp_mode_from_str(const char *satp_mode_str)
         return VM_1_10_SV57;
     }
 
+    if (!strncmp(satp_mode_str, "sv58", 4)) {
+        return VM_1_10_SV58;
+    }
+
     if (!strncmp(satp_mode_str, "sv64", 4)) {
         return VM_1_10_SV64;
     }
@@ -417,6 +421,8 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
         switch (satp_mode) {
         case VM_1_10_SV64:
             return "sv64";
+        case VM_1_10_SV58:
+            return "sv58";
         case VM_1_10_SV57:
             return "sv57";
         case VM_1_10_SV48:
@@ -437,11 +443,27 @@ static void set_satp_mode_max_supported(RISCVCPU *cpu,
     bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
     const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
 
+#if 1
+	if (satp_mode == VM_1_10_SV58) {
+		if (valid_vm[VM_1_10_SV58])
+			cpu->cfg.satp_mode.supported |= (1 << VM_1_10_SV58);
+
+		if (valid_vm[VM_1_10_MBARE])
+			cpu->cfg.satp_mode.supported |= (1 << VM_1_10_MBARE);
+	} else {
+		for (int i = 0; i <= satp_mode; ++i) {
+			if (valid_vm[i]) {
+				cpu->cfg.satp_mode.supported |= (1 << i);
+			}
+		}
+	}
+#else
     for (int i = 0; i <= satp_mode; ++i) {
         if (valid_vm[i]) {
             cpu->cfg.satp_mode.supported |= (1 << i);
         }
     }
+#endif
 }
 
 /* Set the satp mode to the max supported */
@@ -490,7 +512,11 @@ static void rv64_base_cpu_init(Object *obj)
     /* Set latest version of privileged specification */
     env->priv_ver = PRIV_VERSION_LATEST;
 #ifndef CONFIG_USER_ONLY
+#if 1
+    set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV58);
+#else
     set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV57);
+#endif
 #endif
 }
 

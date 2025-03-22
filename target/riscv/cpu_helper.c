@@ -1119,6 +1119,8 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
       levels = 4; ptidxbits = 9; ptesize = 8; break;
     case VM_1_10_SV57:
       levels = 5; ptidxbits = 9; ptesize = 8; break;
+    case VM_1_10_SV58:
+      levels = 4; ptidxbits = 11; ptesize = 8; break;
     case VM_1_10_MBARE:
         *physical = addr;
         *ret_prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
