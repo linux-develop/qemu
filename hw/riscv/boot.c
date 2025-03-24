@@ -79,7 +79,7 @@ target_ulong riscv_calc_kernel_start_addr(RISCVBootInfo *info,
     if (info->is_32bit) {
         return QEMU_ALIGN_UP(firmware_end_addr, 4 * MiB);
     } else {
-        return QEMU_ALIGN_UP(firmware_end_addr, 2 * MiB);
+        return QEMU_ALIGN_UP(firmware_end_addr, (2 << 4) * MiB);
     }
 }
 
